@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "format": "npx prettier --write src/",
     "tailwind": "npx tailwindcss -i ./src/input.css -o ./src/output.css --watch",
     "dev": "vite & npm run tailwind",
     "build": "tsc -b && vite build",
@@ -23,6 +24,8 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "prettier": "^3.3.2",
+    "prettier-plugin-tailwindcss": "^0.6.5",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.2.2",
     "vite": "^5.3.1"
