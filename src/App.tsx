@@ -1,8 +1,13 @@
+import Nav from "./components/Nav";
+
 function App() {
   return (
-    <>
-      <p className="text-red-500 text-2xl">Hello.</p>
-    </>
+    <div className="flex">
+      <Nav />
+      <main>
+        <p className="bg-blue-200 text-2xl">Main</p>
+      </main>
+    </div>
   );
 }
 
