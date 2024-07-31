@@ -1,6 +1,9 @@
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import { PlusCircleIcon as SolidPlusCircleIcon } from "@heroicons/react/24/solid";
+import {
+  Cog6ToothIcon,
+  PlusCircleIcon as SolidPlusCircleIcon,
+} from "@heroicons/react/24/solid";
 import { useState } from "react";
 
 function Nav() {
@@ -25,7 +28,7 @@ function Nav() {
           </div>
         </div>
         <div
-          className="mt-4 flex items-center"
+          className="mt-4 flex items-center hover:cursor-pointer"
           onClick={() => setRecentOpen(!recentOpen)}
         >
           <h2 className="text-xl font-semibold">Recent</h2>
@@ -44,14 +47,14 @@ function Nav() {
           </ul>
         )}
       </div>
-      <div className="grid grid-cols-2 grid-rows-2 gap-2">
+      <div className="grid grid-cols-2 grid-rows-2 gap-x-4">
         <h2 className="test-border row-span-2 flex aspect-square items-center justify-center rounded-full">
           You
         </h2>
-        <h2 className="flex items-center justify-center rounded-lg bg-slate-600 px-3 py-1 text-white">
-          Settings
-        </h2>
-        <h2 className="flex items-center justify-center rounded-lg bg-slate-600 px-3 py-1 text-white">
+        <button type="button" className="h-7 w-7">
+          <Cog6ToothIcon />
+        </button>
+        <h2 className="flex items-center justify-center font-semibold">
           Logout
         </h2>
       </div>
