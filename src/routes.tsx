@@ -1,17 +1,24 @@
 import App from "./App";
 import ErrorPage from "./pages/ErrorPage";
-import Login from "./pages/Login";
+import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import SettingsPage from "./pages/SettingsPage";
 
 const routes = [
   {
     path: "/",
     element: <App />,
+    children: [
+      {
+        path: "settings",
+        element: <SettingsPage />,
+      },
+    ],
     errorElement: <ErrorPage />,
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <LoginPage />,
   },
   {
     path: "/register",
