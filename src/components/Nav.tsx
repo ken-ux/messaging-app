@@ -5,6 +5,7 @@ import {
   PlusCircleIcon as SolidPlusCircleIcon,
 } from "@heroicons/react/24/solid";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Nav() {
   const [recentOpen, setRecentOpen] = useState(true);
@@ -13,7 +14,9 @@ function Nav() {
   return (
     <nav className="flex min-h-screen w-48 flex-col justify-between bg-red-200 p-6">
       <div>
-        <h1 className="text-2xl font-semibold">Sidebar</h1>
+        <Link to="/">
+          <h1 className="text-2xl font-semibold">Sidebar</h1>
+        </Link>
         <div className="mt-4 flex items-center gap-1">
           <h2 className="text-xl font-semibold">New Chat</h2>
           <div
@@ -51,9 +54,9 @@ function Nav() {
         <h2 className="test-border row-span-2 flex aspect-square items-center justify-center rounded-full">
           You
         </h2>
-        <button type="button" className="h-7 w-7">
+        <Link to="/settings" className="h-7 w-7">
           <Cog6ToothIcon />
-        </button>
+        </Link>
         <h2 className="flex items-center justify-center font-semibold">
           Logout
         </h2>
