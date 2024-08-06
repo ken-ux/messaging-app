@@ -6,10 +6,6 @@ function SettingsPage() {
   return (
     <form action="">
       <div>
-        <label htmlFor="display_name">Display Name</label>
-        <input type="text" id="display_name" name="display_name" maxLength={20} />
-      </div>
-      <div>
         <label htmlFor="description">Description</label>
         <textarea
           id="description"
