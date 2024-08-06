@@ -20,7 +20,7 @@ const routes = [
         element: <SearchPage />,
       },
       {
-        path: "message",
+        path: "message/:user",
         element: <MessagePage />,
       },
     ],

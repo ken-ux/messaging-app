@@ -45,7 +45,7 @@ function Nav() {
 
         {recentOpen && (
           <ul>
-            <Link to="/message">Fake User</Link>
+            <Link to="/message/fake">Fake User</Link>
             <li>Placeholder</li>
             <li>Placeholder</li>
           </ul>
