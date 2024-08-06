@@ -19,7 +19,8 @@ function Nav() {
         </Link>
         <div className="mt-4 flex items-center gap-1">
           <h2 className="text-xl font-semibold">New Chat</h2>
-          <div
+          <Link
+            to="/search"
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
           >
@@ -28,7 +29,7 @@ function Nav() {
             ) : (
               <PlusCircleIcon className="h-7 w-7" />
             )}
-          </div>
+          </Link>
         </div>
         <div
           className="mt-4 flex items-center hover:cursor-pointer"
@@ -44,7 +45,7 @@ function Nav() {
 
         {recentOpen && (
           <ul>
-            <li>Placeholder</li>
+            <Link to="/message">Fake User</Link>
             <li>Placeholder</li>
             <li>Placeholder</li>
           </ul>
