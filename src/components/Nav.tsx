@@ -52,9 +52,12 @@ function Nav() {
         )}
       </div>
       <div className="grid grid-cols-2 grid-rows-2 gap-x-4">
-        <h2 className="test-border row-span-2 flex aspect-square items-center justify-center rounded-full">
-          You
-        </h2>
+        <Link to="/settings" className="row-span-2">
+          <h2 className="flex aspect-square items-center justify-center rounded-full bg-black text-white">
+            You
+          </h2>
+        </Link>
+
         <Link to="/settings" className="h-7 w-7">
           <Cog6ToothIcon />
         </Link>
