@@ -31,6 +31,8 @@ function RegisterPage() {
 
       if (response.status === 200) {
         setErrorMessage("Success!");
+        const jwt = await response.json();
+        localStorage.setItem("token", jwt);
       } else {
         const message = await response.text();
         setErrorMessage(message);
@@ -57,6 +59,7 @@ function RegisterPage() {
             name="username"
             id="username"
             autoComplete="username"
+            required
           />
         </div>
         <div>
@@ -66,17 +69,18 @@ function RegisterPage() {
             name="password"
             id="password"
             autoComplete="new-password"
+            required
           />
         </div>
-        {/* <div>
+        <div>
           <label htmlFor="confirm_password">Confirm Password</label>
           <input
             type="password"
-            name="confirm_password"
             id="confirm_password"
             autoComplete="new-password"
+            required
           />
-        </div> */}
+        </div>
         <button type="submit" className="bg-slate-500">
           Register
         </button>
