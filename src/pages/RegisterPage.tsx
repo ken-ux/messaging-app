@@ -47,8 +47,6 @@ function RegisterPage() {
   return (
     <main>
       <form
-        // action={import.meta.env.VITE_API_URL + "/register"}
-        // method="post"
         onSubmit={(e) => formHandler(e)}
         className="test-border mx-auto flex max-w-xl flex-col items-center"
       >
@@ -59,6 +57,9 @@ function RegisterPage() {
             name="username"
             id="username"
             autoComplete="username"
+            pattern="[a-zA-Z0-9]+"
+            minLength={5}
+            maxLength={20}
             required
           />
         </div>
@@ -69,6 +70,8 @@ function RegisterPage() {
             name="password"
             id="password"
             autoComplete="new-password"
+            minLength={5}
+            maxLength={20}
             required
           />
         </div>
@@ -78,6 +81,8 @@ function RegisterPage() {
             type="password"
             id="confirm_password"
             autoComplete="new-password"
+            minLength={5}
+            maxLength={20}
             required
           />
         </div>
