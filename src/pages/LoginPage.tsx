@@ -31,8 +31,8 @@ function LoginPage() {
 
       if (response.status === 200) {
         setErrorMessage("Success!");
-        // const jwt = await response.json();
-        // localStorage.setItem("token", jwt);
+        const jwt = await response.json();
+        localStorage.setItem("token", jwt);
       } else {
         const message = await response.text();
         setErrorMessage(message);
