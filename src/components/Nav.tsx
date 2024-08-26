@@ -5,11 +5,12 @@ import {
   PlusCircleIcon as SolidPlusCircleIcon,
 } from "@heroicons/react/24/solid";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Nav() {
   const [recentOpen, setRecentOpen] = useState(true);
   const [hover, setHover] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <nav className="flex min-h-screen w-48 flex-col justify-between bg-red-200 p-6">
@@ -61,7 +62,13 @@ function Nav() {
         <Link to="/settings" className="h-7 w-7">
           <Cog6ToothIcon />
         </Link>
-        <h2 className="flex items-center justify-center font-semibold">
+        <h2
+          className="flex items-center justify-center font-semibold"
+          onClick={() => {
+            localStorage.removeItem("token");
+            navigate("/login");
+          }}
+        >
           Logout
         </h2>
       </div>
