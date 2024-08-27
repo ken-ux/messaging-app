@@ -66,6 +66,7 @@ function Nav() {
           className="flex items-center justify-center font-semibold"
           onClick={() => {
             localStorage.removeItem("token");
+            localStorage.removeItem("user");
             navigate("/login");
           }}
         >
