@@ -16,19 +16,23 @@ function App() {
 
     // Check if token is valid.
     const auth = async () => {
-      const url = import.meta.env.VITE_API_URL + "/auth";
+      try {
+        const url = import.meta.env.VITE_API_URL + "/auth";
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({ username: localStorage.getItem("user") }),
+        });
 
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-        body: JSON.stringify({ username: localStorage.getItem("user") }),
-      });
-
-      const valid = await response.json();
-      if (!valid) {
+        const valid = await response.json();
+        if (!valid) {
+          navigate("/login");
+        }
+      } catch (err) {
+        console.log(err);
         navigate("/login");
       }
     };
