@@ -33,6 +33,7 @@ function LoginPage() {
         setErrorMessage("Success!");
         const jwt = await response.json();
         localStorage.setItem("token", jwt);
+        localStorage.setItem("user", formData.username)
       } else {
         const message = await response.text();
         setErrorMessage(message);
