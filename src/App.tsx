@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import ContentWrapper from "./components/ContentWrapper";
 import Nav from "./components/Nav";
 
 function App() {
   const navigate = useNavigate();
+  const [loggedIn, isLoggedIn] = useState(false);
 
   useEffect(() => {
     let token = localStorage.getItem("token");
@@ -29,11 +30,16 @@ function App() {
 
         const valid = await response.json();
         if (!valid) {
-          navigate("/login");
+          setTimeout(() => {
+            navigate("/login");
+          }, 1500);
+        } else {
+          isLoggedIn(true);
         }
       } catch (err) {
-        console.log(err);
-        navigate("/login");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
       }
     };
 
@@ -46,7 +52,7 @@ function App() {
     };
   }, [navigate]);
 
-  return (
+  return loggedIn ? (
     <div className="flex">
       <Nav />
       <main className="mx-auto">
@@ -55,6 +61,8 @@ function App() {
         </ContentWrapper>
       </main>
     </div>
+  ) : (
+    <div>Loading...</div>
   );
 }
 
