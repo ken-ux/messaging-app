@@ -28,8 +28,7 @@ function App() {
           body: JSON.stringify({ username: localStorage.getItem("user") }),
         });
 
-        const valid = await response.json();
-        if (!valid) {
+        if (response.status !== 200) {
           setTimeout(() => {
             navigate("/login");
           }, 1500);
