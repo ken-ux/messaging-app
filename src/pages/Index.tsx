@@ -9,15 +9,15 @@ function Index() {
         Hello, <span className="font-semibold">{user}</span>!
         <br />
         Here's some things you can do:
-        <ul className="list-inside list-disc">
-          <li>
-            <Link to="/search">Find a friend to message.</Link>
-          </li>
-          <li>
-            <Link to="/settings">Customize your profile.</Link>
-          </li>
-        </ul>
       </p>
+      <ul className="list-inside list-disc">
+        <li>
+          <Link to="/search">Find a friend to message.</Link>
+        </li>
+        <li>
+          <Link to="/settings">Customize your profile.</Link>
+        </li>
+      </ul>
     </div>
   );
 }
