@@ -1,31 +1,33 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDebouncedCallback } from "use-debounce";
 
 function SearchPage() {
   const [searchResults, setSearchResults] = useState<
     { username: string }[] | null
   >(null);
 
-  const formHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const element = e.currentTarget.elements as HTMLFormControlsCollection & {
-      username: HTMLInputElement;
-    };
-    let searchQuery = element["username"].value;
-    searchQuery = searchQuery.trim();
-    if (searchQuery !== "") {
-      try {
-        const url = import.meta.env.VITE_API_URL + "/search?username=";
-        const response = await fetch(url + searchQuery);
-        const data = await response.json();
-        setSearchResults(data);
-      } catch (err) {
-        console.log(err);
+  const formHandler = useDebouncedCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const element = e.target as HTMLInputElement;
+      let searchQuery = element.value;
+      searchQuery = searchQuery.trim();
+      if (searchQuery !== "") {
+        try {
+          const url = import.meta.env.VITE_API_URL + "/search?username=";
+          const response = await fetch(url + searchQuery);
+          const data = await response.json();
+          setSearchResults(data);
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        setSearchResults(null);
       }
-    } else {
-      setSearchResults(null);
-    }
-  };
+    },
+    300,
+  );
 
   return (
     <div>
