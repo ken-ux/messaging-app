@@ -1,5 +1,8 @@
+import { Link } from "react-router-dom";
+
 function Index() {
   const user = localStorage.getItem("user");
+
   return (
     <div>
       <p>
@@ -7,8 +10,12 @@ function Index() {
         <br />
         Here's some things you can do:
         <ul className="list-inside list-disc">
-          <li>Find a friend to message.</li>
-          <li>Customize your profile.</li>
+          <li>
+            <Link to="/search">Find a friend to message.</Link>
+          </li>
+          <li>
+            <Link to="/settings">Customize your profile.</Link>
+          </li>
         </ul>
       </p>
     </div>
