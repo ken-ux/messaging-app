@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const formHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,17 +31,20 @@ function LoginPage() {
       });
 
       if (response.status === 200) {
-        setErrorMessage("Success!");
+        setErrorMessage("Success! Redirecting to the homepage.");
         const jwt = await response.json();
         localStorage.setItem("token", jwt);
-        localStorage.setItem("user", formData.username)
+        localStorage.setItem("user", formData.username);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       } else {
         const message = await response.text();
         setErrorMessage(message);
       }
     } catch (error) {
       setErrorMessage(
-        "Error processing your request, try again or contact site owner.",
+        "Error processing your request, try again later or contact site owner.",
       );
     }
   };
