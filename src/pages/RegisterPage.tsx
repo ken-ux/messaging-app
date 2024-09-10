@@ -32,10 +32,13 @@ function RegisterPage() {
       });
 
       if (response.status === 200) {
-        setErrorMessage("Success!");
+        setErrorMessage("Success! Redirecting to the homepage.");
         const jwt = await response.json();
         localStorage.setItem("token", jwt);
         localStorage.setItem("user", formData.username);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       } else {
         const message = await response.text();
         setErrorMessage(message);
