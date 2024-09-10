@@ -5,9 +5,16 @@ import { auth } from "../utils";
 function RegisterPage() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordsMatch, setPasswordsMatch] = useState(false);
 
   const formHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!passwordsMatch) {
+      return;
+    }
+
     // Extend typing to prevent errors when accessing values.
     const elements = e.currentTarget.elements as HTMLFormControlsCollection & {
       username: HTMLInputElement;
@@ -94,6 +101,9 @@ function RegisterPage() {
             autoComplete="new-password"
             minLength={5}
             maxLength={20}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             required
           />
         </div>
@@ -106,6 +116,15 @@ function RegisterPage() {
             minLength={5}
             maxLength={20}
             required
+            onChange={(e) => {
+              if (e.target.value !== password) {
+                setPasswordsMatch(false);
+                setErrorMessage("Passwords do not match.");
+              } else {
+                setPasswordsMatch(true);
+                setErrorMessage("");
+              }
+            }}
           />
         </div>
         <button type="submit" className="bg-slate-500">
