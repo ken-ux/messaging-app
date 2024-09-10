@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../utils";
 
 function RegisterPage() {
+  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
+
   const formHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     // Extend typing to prevent errors when accessing values.
     const elements = e.currentTarget.elements as HTMLFormControlsCollection & {
       username: HTMLInputElement;
@@ -44,6 +46,22 @@ function RegisterPage() {
       );
     }
   };
+
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+
+    if (token) {
+      auth().then((val) => {
+        if (val) {
+          navigate("/");
+        }
+      });
+    }
+
+    return () => {
+      token = null;
+    };
+  }, [navigate]);
 
   return (
     <main>
