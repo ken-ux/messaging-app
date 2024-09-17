@@ -1,32 +1,52 @@
-// import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function MessagePage() {
+  const [userConnected, setUserConnected] = useState(false);
   const { user } = useParams();
-  let socket: WebSocket;
+  const socket = useRef<WebSocket | null>(null);
 
-  // useEffect(() => {
-  //   const unloadCallback = () => {
-  //     if (socket.readyState === WebSocket.OPEN) {
-  //       socket.close();
-  //     }
-  //   };
-  //   window.addEventListener("beforeunload", unloadCallback);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", unloadCallback);
-  //   };
-  // });
+  useEffect(() => {
+    if (socket.current === null) {
+      socket.current = new WebSocket(import.meta.env.VITE_WS_URL);
+      socket.current.onopen = () => {
+        setUserConnected(true);
+        console.log("websocket connection opened");
+      };
+    }
 
-  const clickHandler = () => {
-    socket = new WebSocket(import.meta.env.VITE_WS_URL);
-    socket.onopen = () => console.log("connection opened");
-    socket.onmessage = (e) => {
-      console.log(e.data);
+    const unloadCallback = () => {
+      if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+        socket.current.close();
+        socket.current = null;
+      }
     };
-  };
+    window.addEventListener("beforeunload", unloadCallback);
+    return () => {
+      window.removeEventListener("beforeunload", unloadCallback);
+    };
+  });
 
-  const clickHandlerTwo = () => {
-    socket.send("pong from the client");
+  const formHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formElements = e.currentTarget
+      .elements as HTMLFormControlsCollection & {
+      message: HTMLTextAreaElement;
+    };
+
+    const message = formElements.message.value;
+
+    if (socket.current && message !== "") {
+      const obj = {
+        sender: localStorage.getItem("user"),
+        recipient: user,
+        message: message,
+      };
+      socket.current.send(JSON.stringify(obj));
+    } else {
+      console.error("Message not sent.");
+    }
   };
 
   return (
@@ -36,29 +56,27 @@ function MessagePage() {
         <p>me: hi</p>
       </div>
 
-      <form action="" className="flex gap-2">
+      <form onSubmit={formHandler} className="flex gap-2">
         <textarea
           name="message"
           id="message"
           aria-label="message"
-          className="grow"
+          className="grow p-2"
+          disabled={userConnected ? false : true}
         ></textarea>
-        <button type="submit" className="bg-slate-100 px-4">
+        <button
+          type="submit"
+          className={
+            "bg-slate-100 px-4" +
+            (userConnected
+              ? " bg-slate-100 text-black"
+              : " bg-slate-500 text-slate-300")
+          }
+          disabled={userConnected ? false : true}
+        >
           Send
         </button>
       </form>
-      <button type="button" onClick={clickHandler}>
-        Open Websocket Connection
-      </button>
-      <button type="button" onClick={clickHandlerTwo}>
-        Send Websocket Message
-      </button>
-      <button type="button" onClick={() => socket.close()}>
-        Close Websocket Connection
-      </button>
-      <button type="button" onClick={() => console.log(socket.readyState)}>
-        Check Websocket State
-      </button>
     </div>
   );
 }
