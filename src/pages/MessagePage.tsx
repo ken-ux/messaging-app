@@ -27,7 +27,7 @@ function MessagePage() {
     };
   });
 
-  const formHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const formHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formElements = e.currentTarget
@@ -35,17 +35,27 @@ function MessagePage() {
       message: HTMLTextAreaElement;
     };
 
-    const message = formElements.message.value;
+    const message_body = formElements.message.value;
 
-    if (socket.current && message !== "") {
-      const obj = {
-        sender: localStorage.getItem("user"),
-        recipient: user,
-        message: message,
-      };
-      socket.current.send(JSON.stringify(obj));
-    } else {
-      console.error("Message not sent.");
+    const formData = {
+      sender: localStorage.getItem("user"),
+      recipient: user,
+      message_body: message_body,
+    };
+
+    try {
+      const url = import.meta.env.VITE_API_URL + "/message";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const text = await response.text();
+      console.log(text);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -63,6 +73,7 @@ function MessagePage() {
           aria-label="message"
           className="grow p-2"
           disabled={userConnected ? false : true}
+          required
         ></textarea>
         <button
           type="submit"
