@@ -29,7 +29,7 @@ function RegisterPage() {
 
     // Send POST request to backend.
     try {
-      const url = import.meta.env.VITE_API_URL + "/register";
+      const url = import.meta.env.VITE_API_URL + "/auth/register";
       const response = await fetch(url, {
         method: "POST",
         headers: {
