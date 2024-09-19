@@ -31,7 +31,10 @@ function SearchPage() {
 
   return (
     <div>
-      <form onChange={(e) => formHandler(e)}>
+      <form
+        onChange={(e) => formHandler(e)}
+        onSubmit={(e) => e.preventDefault()}
+      >
         <div>
           <label htmlFor="username">Search for User</label>
           <input
