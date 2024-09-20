@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Message } from "../types";
 
 function MessagePage() {
   const [userConnected, setUserConnected] = useState(false);
+  const [messagesLoaded, setMessagesLoaded] = useState(false);
   const { user } = useParams();
   const socket = useRef<WebSocket | null>(null);
+  const messages = useRef<Message[] | null>(null);
 
   useEffect(() => {
+    // Open websocket connection
     if (socket.current === null) {
       socket.current = new WebSocket(import.meta.env.VITE_WS_URL);
       socket.current.onopen = () => {
@@ -21,11 +25,37 @@ function MessagePage() {
         socket.current = null;
       }
     };
+
+    // Add event listener to remove websocket connection when page unloads.
     window.addEventListener("beforeunload", unloadCallback);
+
+    // Get messages between both users.
+    const getMessages = async () => {
+      try {
+        const sender = localStorage.getItem("user");
+        const url =
+          import.meta.env.VITE_API_URL +
+          `/message?sender=${sender}&recipient=${user}`;
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        const data = await response.json();
+        messages.current = data;
+        setMessagesLoaded(true);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMessages();
+
     return () => {
       window.removeEventListener("beforeunload", unloadCallback);
     };
-  });
+  }, [user]);
 
   const formHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -52,12 +82,17 @@ function MessagePage() {
         },
         body: JSON.stringify(formData),
       });
-      const text = await response.text();
-      console.log(text);
+      if (response.status === 200) {
+        console.log("message sent");
+      }
     } catch (error) {
       console.log(error);
     }
   };
+
+  if (messagesLoaded) {
+    console.log("messages are ready");
+  }
 
   return (
     <div className="flex flex-col gap-2">
