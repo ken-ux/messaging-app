@@ -4,3 +4,8 @@ export interface Message {
   message_body: string;
   creation_date: Date;
 }
+
+export interface Profile {
+  description: string;
+  color: string;
+}
