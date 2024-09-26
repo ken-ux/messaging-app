@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
+import Profile from "../components/Profile";
 
 function SearchPage() {
   const [searchResults, setSearchResults] = useState<
     { username: string }[] | null
   >(null);
+  const [profileUsername, setProfileUsername] = useState<string | null>(null);
 
   const formHandler = useDebouncedCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,13 +52,28 @@ function SearchPage() {
         {searchResults !== null
           ? searchResults.map((user) => {
               return (
-                <li key={user.username}>
-                  <Link to={"/message/" + user.username}>{user.username}</Link>
+                <li key={user.username} className="flex justify-between">
+                  <p>{user.username}</p>
+                  <div className="flex gap-1">
+                    <button
+                      className="test-border"
+                      onClick={() => setProfileUsername(user.username)}
+                    >
+                      Profile
+                    </button>
+                    <Link
+                      to={"/message/" + user.username}
+                      className="test-border"
+                    >
+                      Message
+                    </Link>
+                  </div>
                 </li>
               );
             })
           : "No Results"}
       </ul>
+      {profileUsername && <Profile username={profileUsername} />}
     </div>
   );
 }
