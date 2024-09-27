@@ -39,7 +39,7 @@ function SettingsPage() {
         setMessage("Error saving settings. Try again later.");
       }
     } catch (err) {
-      setMessage("Error saving settings. Try again later.");
+      console.log(err);
     }
   };
 
