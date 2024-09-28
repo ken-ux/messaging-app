@@ -12,6 +12,20 @@ function Nav() {
   const [hover, setHover] = useState(false);
   const navigate = useNavigate();
 
+  let recentsList = "Empty. Try messaging someone!";
+  const recents = localStorage.getItem("recents");
+
+  if (recents) {
+    const recentsArray = JSON.parse(recents);
+    recentsList = recentsArray.map((user: string) => {
+      return (
+        <li key={user}>
+          <Link to={`/message/${user}`}>{user}</Link>
+        </li>
+      );
+    });
+  }
+
   return (
     <nav className="flex min-h-screen w-48 flex-col justify-between bg-red-200 p-6">
       <div>
@@ -44,13 +58,7 @@ function Nav() {
           )}
         </div>
 
-        {recentOpen && (
-          <ul>
-            <Link to="/message/fake">Fake User</Link>
-            <li>Placeholder</li>
-            <li>Placeholder</li>
-          </ul>
-        )}
+        {recentOpen && <ul>{recentsList}</ul>}
       </div>
       <div className="grid grid-cols-2 grid-rows-2 gap-x-4">
         <Link to="/settings" className="row-span-2">
@@ -67,6 +75,7 @@ function Nav() {
           onClick={() => {
             localStorage.removeItem("token");
             localStorage.removeItem("user");
+            localStorage.removeItem("recents");
             navigate("/login");
           }}
         >

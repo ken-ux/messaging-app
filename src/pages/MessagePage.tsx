@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Message } from "../types";
+import { storeRecents } from "../utils";
 
 function MessagePage() {
   const [userConnected, setUserConnected] = useState(false);
@@ -10,7 +11,12 @@ function MessagePage() {
   const messages = useRef<Message[] | null>(null);
 
   useEffect(() => {
-    // Open websocket connection
+    // Add user to list of recent chats.
+    if (user) {
+      storeRecents(user);
+    }
+
+    // Open websocket connection.
     if (socket.current === null) {
       socket.current = new WebSocket(import.meta.env.VITE_WS_URL);
       socket.current.onopen = () => {
