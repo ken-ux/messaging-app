@@ -10,12 +10,12 @@ function MessagePage() {
   const socket = useRef<WebSocket | null>(null);
   const messages = useRef<Message[] | null>(null);
 
-  useEffect(() => {
-    // Add user to list of recent chats.
-    if (user) {
-      storeRecents(user);
-    }
+  // Add user to list of recent chats.
+  if (user) {
+    storeRecents(user);
+  }
 
+  useEffect(() => {
     // Open websocket connection.
     if (socket.current === null) {
       socket.current = new WebSocket(import.meta.env.VITE_WS_URL);
