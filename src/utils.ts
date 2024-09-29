@@ -49,4 +49,7 @@ export const storeRecents = (user: string) => {
   }
 
   localStorage.setItem("recents", JSON.stringify(recentsArray));
+
+  // Signals the Nav component to rerender.
+  window.dispatchEvent(new Event("storage"));
 };

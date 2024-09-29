@@ -4,20 +4,21 @@ import {
   Cog6ToothIcon,
   PlusCircleIcon as SolidPlusCircleIcon,
 } from "@heroicons/react/24/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function Nav() {
   const [recentOpen, setRecentOpen] = useState(true);
+  const [recents, setRecents] = useState(localStorage.getItem("recents"));
   const [hover, setHover] = useState(false);
   const navigate = useNavigate();
 
-  let recentsList = "Empty. Try messaging someone!";
-  const recents = localStorage.getItem("recents");
+  // const recents = localStorage.getItem("recents");
+  let listItems = "Empty. Try messaging someone!";
 
   if (recents) {
     const recentsArray = JSON.parse(recents);
-    recentsList = recentsArray.map((user: string) => {
+    listItems = recentsArray.map((user: string) => {
       return (
         <li key={user}>
           <Link to={`/message/${user}`}>{user}</Link>
@@ -25,6 +26,14 @@ function Nav() {
       );
     });
   }
+
+  useEffect(() => {
+    const localStorageChange = () => {
+      setRecents(localStorage.getItem("recents"));
+    };
+    window.addEventListener("storage", localStorageChange);
+    return () => window.removeEventListener("storage", localStorageChange);
+  }, []);
 
   return (
     <nav className="flex min-h-screen w-48 flex-col justify-between bg-red-200 p-6">
@@ -58,7 +67,7 @@ function Nav() {
           )}
         </div>
 
-        {recentOpen && <ul>{recentsList}</ul>}
+        {recentOpen && <ul>{listItems}</ul>}
       </div>
       <div className="grid grid-cols-2 grid-rows-2 gap-x-4">
         <Link to="/settings" className="row-span-2">
