@@ -34,7 +34,7 @@ export const storeRecents = (user: string) => {
   if (!recentsArray.includes(user)) {
     // Remove earliest user from recents lists.
     if (recentsArray.length > 5) {
-      recentsArray.splice(4, 1);
+      recentsArray.splice(5, 1);
     }
     recentsArray.splice(0, 0, user);
   } else {
