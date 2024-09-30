@@ -72,7 +72,7 @@ function Nav() {
       <div className="grid grid-cols-2 grid-rows-2 gap-x-4">
         <Link to="/settings" className="row-span-2">
           <h2 className="flex aspect-square items-center justify-center rounded-full bg-black text-white">
-            You
+            {localStorage.getItem("user")?.charAt(0).toUpperCase()}
           </h2>
         </Link>
 
