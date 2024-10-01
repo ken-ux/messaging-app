@@ -26,6 +26,9 @@ export const storeRecents = (user: string) => {
   // Create new list of recent chats if there isn't one.
   if (!recents) {
     localStorage.setItem("recents", JSON.stringify([user]));
+
+    // Signals the Nav component to rerender.
+    window.dispatchEvent(new Event("storage"));
     return;
   }
 
