@@ -1,27 +1,31 @@
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import {
   Cog6ToothIcon,
-  PlusCircleIcon as SolidPlusCircleIcon,
+  PencilSquareIcon as SolidPencilSquareIcon,
+  SparklesIcon,
 } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Nav() {
   const [recentOpen, setRecentOpen] = useState(true);
   const [recents, setRecents] = useState(localStorage.getItem("recents"));
   const [hover, setHover] = useState(false);
-  const navigate = useNavigate();
 
-  // const recents = localStorage.getItem("recents");
-  let listItems = "Empty. Try messaging someone!";
+  let listItems = <li>Empty. Try messaging someone!</li>;
 
   if (recents) {
     const recentsArray = JSON.parse(recents);
     listItems = recentsArray.map((user: string) => {
       return (
-        <li key={user}>
-          <Link to={`/message/${user}`}>{user}</Link>
+        <li
+          className="rounded-md transition-all duration-150 hover:bg-indigo-600"
+          key={user}
+        >
+          <Link to={`/message/${user}`} className="flex px-2 py-1">
+            {user}
+          </Link>
         </li>
       );
     });
@@ -36,34 +40,34 @@ function Nav() {
   }, []);
 
   return (
-    <nav className="flex min-h-screen w-48 flex-col justify-between bg-red-200 p-6">
+    <nav className="flex min-h-screen w-48 flex-col justify-between bg-indigo-500 p-6 text-white">
       <div>
-        <Link to="/">
-          <h1 className="text-2xl font-semibold">Sidebar</h1>
+        <Link to="/" className="flex items-center gap-1">
+          <h1 className="text-2xl font-semibold">StarSend</h1>
+          <SparklesIcon className="h-7 w-7 text-indigo-200" />
         </Link>
-        <div className="mt-4 flex items-center gap-1">
-          <h2 className="text-xl font-semibold">New Chat</h2>
-          <Link
-            to="/search"
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-          >
-            {hover ? (
-              <SolidPlusCircleIcon className="h-7 w-7" />
-            ) : (
-              <PlusCircleIcon className="h-7 w-7" />
-            )}
-          </Link>
-        </div>
+        <Link
+          to="/search"
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          className="mt-4 flex items-center gap-1"
+        >
+          {hover ? (
+            <SolidPencilSquareIcon className="h-6 w-6 text-indigo-200" />
+          ) : (
+            <PencilSquareIcon className="h-6 w-6 text-indigo-200" />
+          )}
+          <h2 className="text-lg font-semibold">New Chat</h2>
+        </Link>
         <div
           className="mt-4 flex items-center hover:cursor-pointer"
           onClick={() => setRecentOpen(!recentOpen)}
         >
-          <h2 className="text-xl font-semibold">Recent</h2>
+          <h2 className="text-lg font-semibold">Recent</h2>
           {recentOpen ? (
-            <ChevronDownIcon className="h-7 w-7" />
+            <ChevronDownIcon className="h-7 w-7 text-indigo-200" />
           ) : (
-            <ChevronRightIcon className="h-7 w-7" />
+            <ChevronRightIcon className="h-7 w-7 text-indigo-200" />
           )}
         </div>
 
@@ -71,25 +75,25 @@ function Nav() {
       </div>
       <div className="grid grid-cols-2 grid-rows-2 gap-x-4">
         <Link to="/settings" className="row-span-2">
-          <h2 className="flex aspect-square items-center justify-center rounded-full bg-black text-white">
+          <h2 className="flex aspect-square items-center justify-center rounded-full bg-slate-700 transition-all hover:bg-slate-600">
             {localStorage.getItem("user")?.charAt(0).toUpperCase()}
           </h2>
         </Link>
 
         <Link to="/settings" className="h-7 w-7">
-          <Cog6ToothIcon />
+          <Cog6ToothIcon className="text-indigo-200 transition-all hover:text-indigo-300" />
         </Link>
-        <h2
-          className="flex items-center justify-center font-semibold"
+        <Link
+          className="flex items-center justify-center font-semibold transition-all hover:text-indigo-200"
           onClick={() => {
             localStorage.removeItem("token");
             localStorage.removeItem("user");
             localStorage.removeItem("recents");
-            navigate("/login");
           }}
+          to="/login"
         >
           Logout
-        </h2>
+        </Link>
       </div>
     </nav>
   );
