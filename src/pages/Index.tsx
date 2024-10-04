@@ -4,18 +4,27 @@ function Index() {
   const user = localStorage.getItem("user");
 
   return (
-    <div>
-      <p>
-        Hello, <span className="font-semibold">{user}</span>!
-        <br />
-        Here's some things you can do:
+    <div className="flex flex-col gap-2 self-start rounded-lg border border-indigo-100 bg-white p-6 transition-all hover:shadow-md">
+      <p className="text-2xl">
+        Hi, <span className="font-semibold">{user}</span>! 👋
       </p>
+      <p>Here's some things you can do while you're here:</p>
       <ul className="list-inside list-disc">
         <li>
-          <Link to="/search">Find a friend to message.</Link>
+          <Link
+            to="/search"
+            className="text-indigo-500 underline transition-all hover:text-indigo-400"
+          >
+            Find a friend to message
+          </Link>
         </li>
         <li>
-          <Link to="/settings">Customize your profile.</Link>
+          <Link
+            to="/settings"
+            className="text-indigo-500 underline transition-all hover:text-indigo-400"
+          >
+            Customize your profile
+          </Link>
         </li>
       </ul>
     </div>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import ContentWrapper from "./components/ContentWrapper";
 import Nav from "./components/Nav";
 import { auth } from "./utils";
 
@@ -34,12 +33,12 @@ function App() {
   }, [navigate]);
 
   return loggedIn ? (
-    <div className="flex">
+    <div className="flex bg-slate-50">
       <Nav />
-      <main className="mx-auto">
-        <ContentWrapper>
-          <Outlet />
-        </ContentWrapper>
+      <main className="m-6 flex w-full">
+        {/* <ContentWrapper> */}
+        <Outlet />
+        {/* </ContentWrapper> */}
       </main>
     </div>
   ) : (
