@@ -81,7 +81,7 @@ function Nav() {
         </Link>
 
         <Link to="/settings" className="h-7 w-7">
-          <Cog6ToothIcon className="text-indigo-200 transition-all hover:text-indigo-300" />
+          <Cog6ToothIcon className="transition-all hover:text-indigo-200" />
         </Link>
         <Link
           className="flex items-center justify-center font-semibold transition-all hover:text-indigo-200"
