@@ -4,7 +4,7 @@ function Index() {
   const user = localStorage.getItem("user");
 
   return (
-    <div className="flex flex-col gap-2 self-start rounded-lg border border-indigo-100 bg-white p-6 transition-all hover:shadow-md">
+    <div className="page flex flex-col gap-2 self-start p-6 transition-all hover:shadow-md">
       <p className="text-2xl">
         Hi, <span className="font-semibold">{user}</span>! 👋
       </p>

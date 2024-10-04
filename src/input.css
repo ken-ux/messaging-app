@@ -7,4 +7,11 @@
     @apply border;
     @apply border-red-500;
   }
+
+  .page {
+    @apply bg-white;
+    @apply border;
+    @apply border-indigo-100;
+    @apply rounded-lg;
+  }
 }
