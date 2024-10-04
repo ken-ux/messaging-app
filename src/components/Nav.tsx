@@ -60,7 +60,7 @@ function Nav() {
           <h2 className="text-lg font-semibold">New Chat</h2>
         </Link>
         <div
-          className="mt-4 flex items-center hover:cursor-pointer"
+          className="mb-1 mt-4 flex items-center hover:cursor-pointer"
           onClick={() => setRecentOpen(!recentOpen)}
         >
           <h2 className="text-lg font-semibold">Recent</h2>
