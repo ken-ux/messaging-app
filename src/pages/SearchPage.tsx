@@ -56,8 +56,8 @@ function SearchPage() {
             />
           </div>
         </form>
-        <p className="mt-6 text-xl font-semibold">Search Results</p>
-        <ul>
+        <p className="mb-2 mt-6 text-xl font-semibold">Search Results</p>
+        <ul className="flex flex-col gap-2">
           {searchResults !== null
             ? searchResults.map((user) => {
                 return (
