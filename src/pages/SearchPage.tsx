@@ -1,3 +1,7 @@
+import {
+  ChatBubbleOvalLeftEllipsisIcon,
+  UserCircleIcon,
+} from "@heroicons/react/20/solid";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
@@ -15,6 +19,7 @@ function SearchPage() {
       const element = e.target as HTMLInputElement;
       let searchQuery = element.value;
       searchQuery = searchQuery.trim();
+
       if (searchQuery !== "") {
         try {
           const url = import.meta.env.VITE_API_URL + "/search?username=";
@@ -32,48 +37,63 @@ function SearchPage() {
   );
 
   return (
-    <div>
-      <form
-        onChange={(e) => formHandler(e)}
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <div>
-          <label htmlFor="username">Search for User</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            pattern="[a-zA-Z0-9]+"
-          />
-        </div>
-      </form>
-      <p className="mt-2">Search Results</p>
-      <ul>
-        {searchResults !== null
-          ? searchResults.map((user) => {
-              return (
-                <li key={user.username} className="flex justify-between">
-                  <p>{user.username}</p>
-                  <div className="flex gap-1">
-                    <button
-                      className="test-border"
-                      onClick={() => setProfileUsername(user.username)}
-                    >
-                      Profile
-                    </button>
-                    <Link
-                      to={"/message/" + user.username}
-                      className="test-border"
-                    >
-                      Message
-                    </Link>
-                  </div>
-                </li>
-              );
-            })
-          : "No Results"}
-      </ul>
-      {profileUsername && <Profile username={profileUsername} />}
+    <div className="flex gap-2">
+      <div className="page min-w-80 p-6">
+        <form
+          onChange={(e) => formHandler(e)}
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <div className="flex flex-col gap-2">
+            <label htmlFor="username" className="text-xl font-semibold">
+              Search Users
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              pattern="[a-zA-Z0-9]+"
+              className="rounded border border-indigo-100 bg-slate-50 px-1.5 py-0.5"
+            />
+          </div>
+        </form>
+        <p className="mt-6 text-xl font-semibold">Search Results</p>
+        <ul>
+          {searchResults !== null
+            ? searchResults.map((user) => {
+                return (
+                  <li
+                    key={user.username}
+                    className="flex items-center justify-between"
+                  >
+                    <p>{user.username}</p>
+                    <div className="flex gap-1">
+                      <button
+                        className="flex items-center gap-1 rounded bg-indigo-400 px-2 py-1 text-sm text-white transition-all hover:bg-indigo-500"
+                        onClick={() => setProfileUsername(user.username)}
+                      >
+                        Profile
+                        <UserCircleIcon className="h-5 w-5" />
+                      </button>
+                      <Link
+                        to={"/message/" + user.username}
+                        className="flex items-center gap-1 rounded bg-indigo-400 px-2 py-1 text-sm text-white transition-all hover:bg-indigo-500"
+                      >
+                        Message
+                        <ChatBubbleOvalLeftEllipsisIcon className="h-5 w-5" />
+                      </Link>
+                    </div>
+                  </li>
+                );
+              })
+            : "No Results"}
+        </ul>
+      </div>
+      {profileUsername && (
+        <Profile
+          username={profileUsername}
+          setProfileUsername={setProfileUsername}
+        />
+      )}
     </div>
   );
 }
