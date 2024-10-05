@@ -35,7 +35,7 @@ function Profile({
   }, [username]);
 
   return !loading ? (
-    <div className="page flex flex-col self-start p-6" tabIndex={0}>
+    <div className="page flex max-w-80 flex-col self-start p-6" tabIndex={0}>
       <p>
         <span className="font-semibold">Profile</span>: {username}
       </p>
