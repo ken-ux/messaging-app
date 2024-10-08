@@ -52,7 +52,7 @@ function SearchPage() {
               id="username"
               name="username"
               pattern="[a-zA-Z0-9]+"
-              className="rounded border border-indigo-100 bg-slate-50 px-1.5 py-0.5"
+              className="text-input"
             />
           </div>
         </form>

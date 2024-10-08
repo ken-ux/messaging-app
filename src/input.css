@@ -14,4 +14,13 @@
     @apply border-indigo-100;
     @apply rounded-lg;
   }
+
+  .text-input {
+    @apply rounded;
+    @apply border;
+    @apply border-indigo-100;
+    @apply bg-slate-50;
+    @apply px-1.5;
+    @apply py-0.5;
+  }
 }
