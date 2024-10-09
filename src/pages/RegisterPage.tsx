@@ -84,7 +84,7 @@ function RegisterPage() {
   }, [navigate]);
 
   return (
-    <main className="m-5">
+    <div className="m-5">
       <form
         onSubmit={(e) => formHandler(e)}
         className="mx-auto flex max-w-xl flex-col items-center gap-4 rounded bg-indigo-500 p-5 text-white"
@@ -178,7 +178,7 @@ function RegisterPage() {
           .
         </p>
       </form>
-    </main>
+    </div>
   );
 }
 
