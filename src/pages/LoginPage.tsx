@@ -1,13 +1,21 @@
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+} from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../utils";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState("");
+  const [valid, setValid] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const formHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setDisabled(true);
+
     // Extend typing to prevent errors when accessing values.
     const elements = e.currentTarget.elements as HTMLFormControlsCollection & {
       username: HTMLInputElement;
@@ -32,7 +40,8 @@ function LoginPage() {
       });
 
       if (response.status === 200) {
-        setErrorMessage("Success! Redirecting to the homepage.");
+        setValid(true);
+        setMessage("Success! Redirecting to the homepage.");
         const jwt = await response.json();
         localStorage.setItem("token", jwt);
         localStorage.setItem("user", formData.username);
@@ -41,12 +50,16 @@ function LoginPage() {
         }, 1000);
       } else {
         const message = await response.text();
-        setErrorMessage(message);
+        setValid(false);
+        setMessage(message);
+        setDisabled(false);
       }
     } catch (error) {
-      setErrorMessage(
+      setValid(false);
+      setMessage(
         "Error processing your request, try again later or contact site owner.",
       );
+      setDisabled(false);
     }
   };
 
@@ -67,39 +80,71 @@ function LoginPage() {
   }, [navigate]);
 
   return (
-    <main>
+    <main className="m-5">
       <form
         onSubmit={(e) => formHandler(e)}
-        className="test-border mx-auto flex max-w-xl flex-col items-center"
+        className="mx-auto flex max-w-xl flex-col items-center gap-4 rounded bg-indigo-500 p-5 text-white"
       >
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            maxLength={20}
-            autoComplete="username"
-            required
-          />
+        <h1 className="my-2 text-3xl">StarSend</h1>
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between gap-2">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              maxLength={20}
+              autoComplete="username"
+              required
+              className="text-input text-black"
+            />
+          </div>
+          <div className="flex justify-between gap-2">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              maxLength={20}
+              autoComplete="current-password"
+              required
+              className="text-input text-black"
+            />
+          </div>
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            maxLength={20}
-            autoComplete="current-password"
-            required
-          />
-        </div>
-        <button type="submit" className="bg-slate-500">
+        <button
+          type="submit"
+          className={
+            "rounded bg-indigo-700 px-2 py-1 " +
+            (disabled && "bg-indigo-300 text-indigo-400")
+          }
+          disabled={disabled}
+        >
           Login
         </button>
-        <p>{errorMessage}</p>
+        {message && (
+          <div
+            className={
+              "flex items-center gap-2 rounded px-2 py-1 font-medium " +
+              (valid
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700")
+            }
+          >
+            {valid ? (
+              <CheckCircleIcon className="h-5 w-5" />
+            ) : (
+              <ExclamationCircleIcon className="h-5 w-5" />
+            )}
+            <p>{message}</p>
+          </div>
+        )}
         <p>
-          Don't have an account? <Link to="/register">Register</Link>.
+          Don't have an account?{" "}
+          <Link to="/register" className="underline">
+            Register
+          </Link>
+          .
         </p>
       </form>
     </main>
