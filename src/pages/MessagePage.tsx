@@ -1,3 +1,5 @@
+import { PaperAirplaneIcon } from "@heroicons/react/20/solid";
+import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Message } from "../types";
@@ -21,7 +23,6 @@ function MessagePage() {
       socket.current = new WebSocket(import.meta.env.VITE_WS_URL);
       socket.current.onopen = () => {
         setUserConnected(true);
-        console.log("websocket connection opened");
       };
     }
 
@@ -99,44 +100,60 @@ function MessagePage() {
   let messageList;
   if (messagesLoaded) {
     if (messages.current !== null) {
-      messageList = messages.current.map((message, id) => {
-        return (
-          <p key={id}>
-            {message.sender}: {message.message_body}
-          </p>
-        );
-      });
+      messageList = (
+        <ul className="flex flex-col gap-2">
+          {messages.current.map((message, id) => {
+            return (
+              <li
+                key={id}
+                className={
+                  `rounded border p-2 ` +
+                  (message.sender === user
+                    ? "self-start bg-white"
+                    : "self-end border-indigo-400 bg-indigo-500 text-white")
+                }
+              >
+                {message.message_body}
+              </li>
+            );
+          })}
+        </ul>
+      );
     } else {
       messageList = <p>No messages. :-(</p>;
     }
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="max-h-96 bg-white p-2">
+    <div className="page flex w-3/4 flex-col gap-4 p-6">
+      <div className="flex gap-2">
+        <UserCircleIcon className="h-10 w-10" />
+        <p className="text-2xl font-semibold">{user}</p>
+      </div>
+      <div className="max-h-full rounded-lg border border-slate-300 bg-slate-100 p-2">
         {messagesLoaded ? messageList : <p>Messages loading...</p>}
       </div>
-
       <form onSubmit={formHandler} className="flex gap-2">
         <textarea
           name="message"
           id="message"
           aria-label="message"
-          className="grow p-2"
+          className="h-14 grow rounded border border-slate-300 p-2"
           disabled={userConnected ? false : true}
           required
         ></textarea>
         <button
           type="submit"
           className={
-            "bg-slate-100 px-4" +
+            "h-14 rounded px-4" +
             (userConnected
-              ? " bg-slate-100 text-black"
+              ? " bg-indigo-500 text-white"
               : " bg-slate-500 text-slate-300")
           }
           disabled={userConnected ? false : true}
+          aria-label="send"
         >
-          Send
+          <PaperAirplaneIcon className="h-6 w-6" />
         </button>
       </form>
     </div>
