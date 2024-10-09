@@ -785,6 +785,10 @@ video {
   align-self: flex-end;
 }
 
+.self-center {
+  align-self: center;
+}
+
 .rounded {
   border-radius: 0.25rem;
 }
@@ -951,6 +955,10 @@ video {
   padding-bottom: 0.25rem;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -1026,6 +1034,10 @@ video {
 
 .underline {
   text-decoration-line: underline;
+}
+
+.outline {
+  outline-style: solid;
 }
 
 .transition-all {

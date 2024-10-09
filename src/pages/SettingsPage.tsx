@@ -18,13 +18,16 @@ function SettingsPage() {
           const data: ProfileType = await response.json();
           setDescription(data.description);
           setColor(data.color);
+          if (description) {
+            setTextLength(description.length);
+          }
         }
       } catch (err) {
         console.log(err);
       }
     };
     fetchData();
-  }, []);
+  }, [description]);
 
   const formHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,9 +69,15 @@ function SettingsPage() {
   };
 
   return (
-    <form onSubmit={formHandler}>
-      <div>
-        <label htmlFor="description">Description</label>
+    <form
+      onSubmit={formHandler}
+      className="page flex flex-col gap-2 self-start p-6 transition-all hover:shadow-md"
+    >
+      <h1 className="text-lg font-semibold">User Settings</h1>
+      <div className="flex flex-col gap-1">
+        <label htmlFor="description" className="font-medium">
+          Description
+        </label>
         <textarea
           id="description"
           name="description"
@@ -77,22 +86,30 @@ function SettingsPage() {
             setTextLength(e.target.value.length);
           }}
           defaultValue={description ? description : ""}
+          className="rounded border border-slate-300 p-2"
         />
-        <span>{textLength}/100</span>
+        <span className="text-right">{textLength}/100</span>
       </div>
-      <div>
-        <label htmlFor="color">Profile Color</label>
+      <div className="flex gap-1">
+        <label htmlFor="color" className="font-medium">
+          Favorite Color
+        </label>
         <input
           type="color"
           id="color"
           name="color"
           defaultValue={color ? color : "#000000"}
+          className="grow"
         />
       </div>
-      <button type="submit" className="bg-slate-100">
-        Save
+      {/* <button type="button">Delete Account</button> */}
+      <button
+        type="submit"
+        className="self-center rounded bg-indigo-400 px-2 py-1 text-sm text-white transition-all hover:bg-indigo-500"
+      >
+        Save Settings
       </button>
-      <p>{message}</p>
+      {message && <p>{message}</p>}
     </form>
   );
 }
