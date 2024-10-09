@@ -2,6 +2,7 @@ import {
   CheckCircleIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/20/solid";
+import { SparklesIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../utils";
@@ -83,7 +84,10 @@ function LoginPage() {
         onSubmit={(e) => formHandler(e)}
         className="mx-auto flex max-w-xl flex-col items-center gap-4 rounded bg-indigo-500 p-5 text-white"
       >
-        <h1 className="my-2 text-3xl">StarSend</h1>
+        <div className="flex items-center gap-1">
+          <h1 className="my-2 text-3xl font-semibold">StarSend</h1>
+          <SparklesIcon className="h-9 w-9" />
+        </div>
         <div className="flex flex-col gap-2">
           <div className="flex justify-between gap-2">
             <label htmlFor="username">Username</label>
