@@ -50,12 +50,10 @@ function LoginPage() {
         }, 1000);
       } else {
         const message = await response.text();
-        setValid(false);
         setMessage(message);
         setDisabled(false);
       }
     } catch (error) {
-      setValid(false);
       setMessage(
         "Error processing your request, try again later or contact site owner.",
       );
