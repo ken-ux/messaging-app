@@ -86,7 +86,7 @@ function LoginPage() {
       >
         <div className="flex items-center gap-1">
           <h1 className="my-2 text-3xl font-semibold">StarSend</h1>
-          <SparklesIcon className="h-9 w-9" />
+          <SparklesIcon className="h-9 w-9 text-indigo-200" />
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex justify-between gap-2">
