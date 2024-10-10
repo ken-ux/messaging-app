@@ -99,6 +99,10 @@ function MessagePage() {
         body: JSON.stringify(formData),
       });
       if (response.status === 200) {
+        const textArea = document.querySelector("textarea");
+        if (textArea) {
+          textArea.value = "";
+        }
         const newMessage: Message = {
           sender: localStorage.getItem("user") as string,
           recipient: user as string,
