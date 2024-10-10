@@ -8,10 +8,13 @@ import { storeRecents } from "../utils";
 function MessagePage() {
   const [userConnected, setUserConnected] = useState(false);
   const [messagesLoaded, setMessagesLoaded] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
   const { user } = useParams();
   const socket = useRef<WebSocket | null>(null);
   const messages = useRef<Message[] | null>(null);
 
+  // Handles fetching previous messages and opening WebSocket connection.
   useEffect(() => {
     // Add user to list of recent chats.
     if (user) {
@@ -64,8 +67,10 @@ function MessagePage() {
     };
   }, [user]);
 
+  // Handles sending new message.
   const formHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setDisabled(true);
 
     const formElements = e.currentTarget
       .elements as HTMLFormControlsCollection & {
@@ -90,33 +95,41 @@ function MessagePage() {
         body: JSON.stringify(formData),
       });
       if (response.status === 200) {
+        // Replace this with re-rendering of chat to show new message.
         console.log("message sent");
+      } else {
+        // Replace this later with error message displayed in UI.
+        const text = await response.text();
+        console.log(text);
       }
     } catch (error) {
       console.log(error);
     }
+    setDisabled(false);
   };
 
   let messageList;
   if (messagesLoaded) {
     if (messages.current !== null) {
       messageList = (
-        <ul className="flex flex-col gap-2">
-          {messages.current.map((message, id) => {
-            return (
-              <li
-                key={id}
-                className={
-                  `rounded border p-2 ` +
-                  (message.sender === user
-                    ? "self-start bg-white"
-                    : "self-end border-indigo-400 bg-indigo-500 text-white")
-                }
-              >
-                {message.message_body}
-              </li>
-            );
-          })}
+        <ul className="flex max-h-96 flex-col-reverse gap-2 overflow-auto">
+          {messages.current
+            .map((message, id) => {
+              return (
+                <li
+                  key={id}
+                  className={
+                    `rounded border p-2 ` +
+                    (message.sender === user
+                      ? "self-start bg-white"
+                      : "self-end border-indigo-400 bg-indigo-500 text-white")
+                  }
+                >
+                  {message.message_body}
+                </li>
+              );
+            })
+            .reverse()}
         </ul>
       );
     } else {
@@ -125,12 +138,12 @@ function MessagePage() {
   }
 
   return (
-    <div className="page flex w-3/4 flex-col gap-4 p-6">
+    <div className="page flex grow flex-col gap-4 p-6 md:max-w-3xl">
       <div className="flex gap-2">
         <UserCircleIcon className="h-10 w-10" />
         <p className="text-2xl font-semibold">{user}</p>
       </div>
-      <div className="max-h-full rounded-lg border border-slate-300 bg-slate-100 p-2">
+      <div className="rounded-lg border border-slate-300 bg-slate-100 p-2">
         {messagesLoaded ? messageList : <p>Messages loading...</p>}
       </div>
       <form onSubmit={formHandler} className="flex gap-2">
@@ -139,18 +152,18 @@ function MessagePage() {
           id="message"
           aria-label="message"
           className="h-14 grow rounded border border-slate-300 p-2"
-          disabled={userConnected ? false : true}
+          disabled={!userConnected || disabled}
           required
         ></textarea>
         <button
           type="submit"
           className={
             "h-14 rounded px-4" +
-            (userConnected
+            (!userConnected || !disabled
               ? " bg-indigo-500 text-white"
               : " bg-slate-500 text-slate-300")
           }
-          disabled={userConnected ? false : true}
+          disabled={!userConnected || disabled}
           aria-label="send"
         >
           <PaperAirplaneIcon className="h-6 w-6" />
