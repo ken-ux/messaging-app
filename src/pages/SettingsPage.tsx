@@ -1,12 +1,20 @@
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+} from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Profile as ProfileType } from "../types";
 
 function SettingsPage() {
+  const navigate = useNavigate();
   const [textLength, setTextLength] = useState(0);
   const [message, setMessage] = useState("");
   const [description, setDescription] = useState<string | null>(null);
   const [color, setColor] = useState<string | null>(null);
+  const [valid, setValid] = useState(false);
 
+  // Populates previous settings into UI.
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,6 +37,7 @@ function SettingsPage() {
     fetchData();
   }, [description]);
 
+  // Handles updating settings.
   const formHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -56,12 +65,48 @@ function SettingsPage() {
       });
 
       if (response.status === 200) {
+        setValid(true);
         setMessage("Settings saved!");
         setTimeout(() => {
           setMessage("");
         }, 4000);
       } else {
+        setValid(false);
         setMessage("Error saving settings. Try again later.");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // Handles account deletion.
+  const buttonHandler = async () => {
+    try {
+      const user = localStorage.getItem("user");
+      const url = import.meta.env.VITE_API_URL + "/delete?username=" + user;
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+
+      if (response.status === 200) {
+        setValid(true);
+        setMessage("Account deleted. Redirecting to homepage.");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("recents");
+        setTimeout(() => {
+          navigate("/login");
+        }, 4000);
+      } else {
+        setValid(false);
+        setMessage(
+          "Error deleting account. Try again later or email website administrator.",
+        );
       }
     } catch (err) {
       console.log(err);
@@ -71,7 +116,7 @@ function SettingsPage() {
   return (
     <form
       onSubmit={formHandler}
-      className="page flex flex-col gap-2 self-start p-6 transition-all hover:shadow-md"
+      className="page flex w-96 flex-col gap-2 self-start p-6 transition-all hover:shadow-md"
     >
       <h1 className="text-lg font-semibold">User Settings</h1>
       <div className="flex flex-col gap-1">
@@ -102,14 +147,34 @@ function SettingsPage() {
           className="grow"
         />
       </div>
-      {/* <button type="button">Delete Account</button> */}
       <button
         type="submit"
         className="self-center rounded bg-indigo-400 px-2 py-1 text-sm text-white transition-all hover:bg-indigo-500"
       >
         Save Settings
       </button>
-      {message && <p>{message}</p>}
+      <button
+        type="button"
+        onClick={buttonHandler}
+        className="self-center rounded bg-red-400 px-2 py-1 text-sm text-white transition-all hover:bg-red-700"
+      >
+        Delete Account
+      </button>
+      {message && (
+        <div
+          className={
+            "flex items-center gap-2 rounded px-2 py-1 font-medium " +
+            (valid ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700")
+          }
+        >
+          {valid ? (
+            <CheckCircleIcon className="h-5 w-5" />
+          ) : (
+            <ExclamationCircleIcon className="h-5 w-5" />
+          )}
+          <p>{message}</p>
+        </div>
+      )}
     </form>
   );
 }
