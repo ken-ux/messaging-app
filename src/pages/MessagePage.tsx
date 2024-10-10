@@ -97,6 +97,17 @@ function MessagePage() {
       if (response.status === 200) {
         // Replace this with re-rendering of chat to show new message.
         console.log("message sent");
+        const newMessage: Message = {
+          sender: localStorage.getItem("user") as string,
+          recipient: user as string,
+          message_body: message_body,
+          creation_date: new Date(),
+        };
+        if (messages.current) {
+          messages.current.unshift(newMessage);
+        } else {
+          messages.current = [newMessage];
+        }
       } else {
         // Replace this later with error message displayed in UI.
         const text = await response.text();
