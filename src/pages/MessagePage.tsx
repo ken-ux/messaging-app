@@ -113,23 +113,21 @@ function MessagePage() {
     if (messages.current !== null) {
       messageList = (
         <ul className="flex max-h-96 flex-col-reverse gap-2 overflow-auto">
-          {messages.current
-            .map((message, id) => {
-              return (
-                <li
-                  key={id}
-                  className={
-                    `rounded border p-2 ` +
-                    (message.sender === user
-                      ? "self-start bg-white"
-                      : "self-end border-indigo-400 bg-indigo-500 text-white")
-                  }
-                >
-                  {message.message_body}
-                </li>
-              );
-            })
-            .reverse()}
+          {messages.current.map((message, id) => {
+            return (
+              <li
+                key={id}
+                className={
+                  `rounded border p-2 ` +
+                  (message.sender === user
+                    ? "self-start bg-white"
+                    : "self-end border-indigo-400 bg-indigo-500 text-white")
+                }
+              >
+                {message.message_body}
+              </li>
+            );
+          })}
         </ul>
       );
     } else {
