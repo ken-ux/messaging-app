@@ -1,4 +1,7 @@
-import { PaperAirplaneIcon } from "@heroicons/react/20/solid";
+import {
+  ExclamationCircleIcon,
+  PaperAirplaneIcon,
+} from "@heroicons/react/20/solid";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -9,6 +12,7 @@ function MessagePage() {
   const [userConnected, setUserConnected] = useState(false);
   const [messagesLoaded, setMessagesLoaded] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { user } = useParams();
   const socket = useRef<WebSocket | null>(null);
@@ -95,8 +99,6 @@ function MessagePage() {
         body: JSON.stringify(formData),
       });
       if (response.status === 200) {
-        // Replace this with re-rendering of chat to show new message.
-        console.log("message sent");
         const newMessage: Message = {
           sender: localStorage.getItem("user") as string,
           recipient: user as string,
@@ -109,9 +111,12 @@ function MessagePage() {
           messages.current = [newMessage];
         }
       } else {
-        // Replace this later with error message displayed in UI.
-        const text = await response.text();
-        console.log(text);
+        setErrorMessage(
+          "Message could not be sent. Wait a few seconds and try again.",
+        );
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 4000);
       }
     } catch (error) {
       console.log(error);
@@ -178,6 +183,12 @@ function MessagePage() {
           <PaperAirplaneIcon className="h-6 w-6" />
         </button>
       </form>
+      {errorMessage && (
+        <div className="flex items-center gap-2 rounded bg-red-100 px-2 py-1 font-medium text-red-700">
+          <ExclamationCircleIcon className="h-5 w-5" />
+          <p>{errorMessage}</p>
+        </div>
+      )}
     </div>
   );
 }
