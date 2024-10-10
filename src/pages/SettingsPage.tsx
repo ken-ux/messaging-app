@@ -116,7 +116,7 @@ function SettingsPage() {
   return (
     <form
       onSubmit={formHandler}
-      className="page flex w-96 flex-col gap-2 self-start p-6 transition-all hover:shadow-md"
+      className="page flex grow flex-col gap-2 self-start p-6 transition-all hover:shadow-md sm:max-w-96"
     >
       <h1 className="text-lg font-semibold">User Settings</h1>
       <div className="flex flex-col gap-1">
@@ -135,7 +135,7 @@ function SettingsPage() {
         />
         <span className="text-right">{textLength}/100</span>
       </div>
-      <div className="flex gap-1">
+      <div className="flex gap-2">
         <label htmlFor="color" className="font-medium">
           Favorite Color
         </label>
@@ -144,19 +144,19 @@ function SettingsPage() {
           id="color"
           name="color"
           defaultValue={color ? color : "#000000"}
-          className="grow"
+          className="max-w-24 grow"
         />
       </div>
       <button
         type="submit"
-        className="self-center rounded bg-indigo-400 px-2 py-1 text-sm text-white transition-all hover:bg-indigo-500"
+        className="self-end rounded bg-indigo-400 px-2 py-1 text-sm text-white transition-all hover:bg-indigo-500"
       >
         Save Settings
       </button>
       <button
         type="button"
         onClick={buttonHandler}
-        className="self-center rounded bg-red-400 px-2 py-1 text-sm text-white transition-all hover:bg-red-700"
+        className="self-end rounded bg-red-400 px-2 py-1 text-sm text-white transition-all hover:bg-red-700"
       >
         Delete Account
       </button>
