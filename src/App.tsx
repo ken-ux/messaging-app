@@ -42,7 +42,7 @@ function App() {
       </main>
     </div>
   ) : (
-    <div>Loading...</div>
+    <div className="bg-indigo-500 p-5 text-white">App loading...</div>
   );
 }
 
