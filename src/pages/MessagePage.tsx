@@ -31,6 +31,9 @@ function MessagePage() {
       socket.current.onopen = () => {
         setUserConnected(true);
       };
+      // socket.current.onmessage = (e) => {
+      //   console.log(e.data);
+      // };
     }
 
     const unloadCallback = () => {
