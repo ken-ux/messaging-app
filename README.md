@@ -1,30 +1,15 @@
-# React + TypeScript + Vite
+# messaging-app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend for a messaging app called "StarSend" that allows users to register accounts for privately messaging others. Users are also able to customize their profiles, which show up when being searched by others. The frontend is built with React + TypeScript and is styled with Tailwind. The backend is built with Go and interacts with a PostgreSQL database.
 
-Currently, two official plugins are available:
+The backend repository can be found here: https://github.com/ken-ux/messaging-app-api
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Note: This is still a work-in-progress so there's no live version yet.
 
-## Expanding the ESLint configuration
+## Lessons Learned
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Basic WebSocket fundamentals such as opening and closing a connection.
+- Debouncing search queries to limit the rate that requests are sent to the API.
+- Keeping record of recently messaged users with in-memory data structures.
+  - I contemplated whether to use a table in this project's relational database to keep track of the recent users but it didn't seem like a use case worth persisting for long periods of time. Plus it would put more strain on the backend to consistently poll the database for recent users during a session.
+  - An ideal solution may be to save the in-memory data to the external database at the end of a session. I think Redis would be an ideal tool for this, so I'm considering integrating it later on.
