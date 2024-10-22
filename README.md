@@ -6,6 +6,19 @@ The backend repository can be found here: https://github.com/ken-ux/messaging-ap
 
 Note: This is still a work-in-progress so there's no live version yet.
 
+## Screenshots
+
+These are the wireframes made in Figma vs. the final version of the app seen in a browser.
+
+|    Screen    |                            Wireframe Version                             |                        Final Version                         |
+| :----------: | :----------------------------------------------------------------------: | :----------------------------------------------------------: |
+|     Home     |                                   N/A                                    |       ![home final](./src/assets/final/final_home.png)       |
+|    Login     |      ![login wireframe](./src/assets/wireframe/wireframe_login.png)      |      ![login final](./src/assets/final/final_login.png)      |
+| Registration | ![registration wireframe](./src/assets/wireframe/wireframe_register.png) | ![registration final](./src/assets/final/final_register.png) |
+|    Search    |     ![search wireframe](./src/assets/wireframe/wireframe_search.png)     |     ![search final](./src/assets/final/final_search.png)     |
+|     Chat     |       ![chat wireframe](./src/assets/wireframe/wireframe_chat.png)       |       ![chat final](./src/assets/final/final_chat.png)       |
+|   Settings   |   ![settings wireframe](./src/assets/wireframe/wireframe_settings.png)   |   ![settings final](./src/assets/final/final_settings.png)   |
+
 ## Lessons Learned
 
 - Basic WebSocket fundamentals such as opening and closing a connection.
